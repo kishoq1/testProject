@@ -34,9 +34,9 @@ fun YouTubePlayerScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
 
-    // Lấy URL video một lần
+    // Lấy URL video một lần, truyền context vào
     LaunchedEffect(key1 = videoId) {
-        viewModel.extractVideoUrl(videoId)
+        viewModel.extractVideoUrl(context, videoId)
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -59,7 +59,7 @@ fun YouTubePlayerScreen(
 private fun VideoPlayer(context: Context, videoUrl: String, title: String) {
     var mediaController by remember { mutableStateOf<MediaController?>(null) }
 
-    // Khởi động service với URL
+    // Khởi động service với URL duy nhất
     LaunchedEffect(videoUrl) {
         val serviceIntent = Intent(context, PlaybackService::class.java).apply {
             putExtra("URL_TO_PLAY", videoUrl)
@@ -68,7 +68,6 @@ private fun VideoPlayer(context: Context, videoUrl: String, title: String) {
         context.startService(serviceIntent)
     }
 
-    // Kết nối đến MediaSession của service
     DisposableEffect(Unit) {
         val sessionToken = SessionToken(context, ComponentName(context, PlaybackService::class.java))
         val controllerFuture = MediaController.Builder(context, sessionToken).buildAsync()
@@ -81,17 +80,17 @@ private fun VideoPlayer(context: Context, videoUrl: String, title: String) {
         }
     }
 
-    // Hiển thị PlayerView
     if (mediaController != null) {
         AndroidView(
             factory = {
                 PlayerView(it).apply {
                     player = mediaController
+                    useController = true // Bật thanh điều khiển
                 }
             },
             modifier = Modifier.fillMaxSize()
         )
     } else {
-        CircularProgressIndicator() // Hiển thị loading trong khi chờ kết nối
+        CircularProgressIndicator()
     }
 }

@@ -10,10 +10,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Thêm dòng này vào
-        maven (url ="https://jitpack.io")
+        maven (url  ="https://jitpack.io")
     }
 }
 
+// 1. Đặt tên dự án gốc trước
 rootProject.name = "testProject"
+
+// 2. Khai báo tất cả các module con sau đó
 include(":app")
+include(":extractor")
+include(":shared")
+include(":timeago-parser")

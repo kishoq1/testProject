@@ -1,22 +1,14 @@
 package com.example.testproject.ui.screen.players
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.annotation.OptIn
+import android.content.Context
+import android.util.SparseArray
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.offline.Downloader
-import kotlinx.coroutines.Dispatchers
+import at.huber.youtubeExtractor.VideoMeta
+import at.huber.youtubeExtractor.YouTubeExtractor
+import at.huber.youtubeExtractor.YtFile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.schabi.newpipe.extractor.NewPipe
-import org.schabi.newpipe.extractor.downloader.Downloader
-import org.schabi.newpipe.extractor.downloader.Request
-import org.schabi.newpipe.extractor.downloader.Response
-import org.schabi.newpipe.extractor.stream.StreamInfo
 
 sealed class PlayerUiState {
     object Loading : PlayerUiState()
@@ -24,46 +16,41 @@ sealed class PlayerUiState {
     data class Error(val message: String) : PlayerUiState()
 }
 
-@OptIn(UnstableApi::class)
 @SuppressLint("StaticFieldLeak")
 class PlayerViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<PlayerUiState>(PlayerUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    init {
-        NewPipe.init(object : Downloader() {
-            override fun execute(request: Request?): Response {
-                return Response(200, null, emptyMap(), null, null)
-            }
-        })
-    }
+    fun extractVideoUrl(context: Context, videoId: String) {
+        _uiState.value = PlayerUiState.Loading
 
-    fun extractVideoUrl(videoId: String) {
-        viewModelScope.launch {
-            _uiState.value = PlayerUiState.Loading
-            withContext(Dispatchers.IO) {
-                try {
-                    val youtubeUrl = "https://www.youtube.com/watch?v=$videoId"
-                    val info = StreamInfo.getInfo(youtubeUrl)
-                    val videoStream = info.videoStreams
-                        .filter { it.format?.name == "MPEG_4" && it.height < 720 }
-                        .minByOrNull { it.height }
+        // === SỬA LỖI TẠI ĐÂY ===
+        // Xây dựng URL YouTube chính xác từ videoId được truyền vào
+        val youtubeLink = "http://youtube.com/watch?v=$videoId"
 
-                    if (videoStream != null) {
-                        withContext(Dispatchers.Main) {
-                            _uiState.value = PlayerUiState.Success(videoStream.url, info.name)
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            _uiState.value = PlayerUiState.Error("Không tìm thấy luồng video phù hợp.")
-                        }
-                    }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        _uiState.value = PlayerUiState.Error("Lỗi: ${e.message}")
-                    }
+        object : YouTubeExtractor(context) {
+            override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, videoMeta: VideoMeta?) {
+                if (videoMeta == null || ytFiles == null) {
+                    _uiState.value = PlayerUiState.Error("Không thể lấy thông tin video.")
+                    return
+                }
+
+                // Tìm luồng video có cả hình và tiếng (muxed)
+                // itag 22 là 720p, 18 là 360p (định dạng mp4)
+                val itag = 22 // Ưu tiên 720p
+                var downloadUrl = ytFiles[itag]?.url
+
+                if (downloadUrl == null) {
+                    // Nếu không có 720p, thử 360p
+                    downloadUrl = ytFiles[18]?.url
+                }
+
+                if (downloadUrl != null) {
+                    _uiState.value = PlayerUiState.Success(downloadUrl, videoMeta.title)
+                } else {
+                    _uiState.value = PlayerUiState.Error("Không tìm thấy luồng video MP4 phù hợp.")
                 }
             }
-        }
+        }.extract(youtubeLink, true, true)
     }
 }

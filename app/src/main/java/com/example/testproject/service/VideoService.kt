@@ -2,6 +2,7 @@ package com.example.testproject.service
 
 import android.content.Intent
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -21,16 +22,19 @@ class PlaybackService : MediaSessionService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Chỉ nhận một URL duy nhất
         intent?.getStringExtra("URL_TO_PLAY")?.let { url ->
             val title = intent.getStringExtra("TITLE") ?: "Không rõ tiêu đề"
+
             val mediaItem = MediaItem.Builder()
                 .setUri(url)
                 .setMediaMetadata(
-                    androidx.media3.common.MediaMetadata.Builder()
+                    MediaMetadata.Builder()
                         .setTitle(title)
                         .build()
                 )
                 .build()
+
             player.setMediaItem(mediaItem)
             player.prepare()
             player.play()

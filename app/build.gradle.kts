@@ -14,15 +14,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        ndk {
-            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
         }
     }
 
@@ -55,45 +49,23 @@ android {
     }
 }
 
-
-
-
-
-
 dependencies {
-
+    // AndroidX Core & Jetpack Compose
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material.icons.extended)
 
-    implementation(libs.androidx.core.ktx.v1131)
-    implementation(libs.androidx.lifecycle.runtime.ktx.v283)
-    implementation(libs.androidx.activity.compose.v190)
-
-    // Jetpack Compose
-    implementation(platform(libs.androidx.compose.bom.v20240600))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
-    implementation(libs.androidx.compose.material3.material3)
+    // Lifecycle & ViewModel
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
-
-    // ViewModel
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Networking (Retrofit)
     implementation(libs.retrofit)
@@ -102,29 +74,22 @@ dependencies {
     // Image Loading (Coil)
     implementation(libs.coil.compose)
 
+    // Media3 (ExoPlayer)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.ui)
+
+    // YouTube Extractor
+    implementation(libs.youtube.extractor)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
-    implementation(libs.androidx.material.icons.extended)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
 
-    implementation(libs.androidx.media)
-
-    implementation(libs.androidx.media3.exoplayer.v131)
-    implementation(libs.androidx.media3.session.v131)
-    implementation(libs.androidx.media3.ui.v131)
-
-    implementation(libs.androidx.activity.ktx)
-
-    implementation(libs.schabi.newpipeextractor)
-    implementation(libs.newpipeextractor)
-
-    implementation(libs.teamnewpipe.newpipeextractor)
-
-
-
+    // Dòng debugImplementation đã được sửa lỗi
+    debugImplementation(libs.debug.androidx.ui.tooling)
+    debugImplementation(libs.debug.androidx.ui.test.manifest)
 }
