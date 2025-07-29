@@ -20,6 +20,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+        }
     }
 
     buildTypes {
@@ -51,6 +55,11 @@ android {
     }
 }
 
+
+
+
+
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -64,7 +73,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
@@ -98,7 +106,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom.v20250601))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
@@ -111,4 +119,12 @@ dependencies {
     implementation(libs.androidx.media3.ui.v131)
 
     implementation(libs.androidx.activity.ktx)
+
+    implementation(libs.schabi.newpipeextractor)
+    implementation(libs.newpipeextractor)
+
+    implementation(libs.teamnewpipe.newpipeextractor)
+
+
+
 }

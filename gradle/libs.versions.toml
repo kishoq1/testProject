@@ -1,34 +1,42 @@
 [versions]
-activityComposeVersion = "1.9.0"
+activityComposeVersion = "1.10.1"
 agp = "8.10.1"
-androidxComposeBom = "2025.06.01"
+androidxComposeBom = "2025.07.00"
+androidYoutubeextractor = "master-SNAPSHOT"
 coilCompose = "2.6.0"
-composeBomVersion = "2024.06.00"
+composeBomVersion = "2025.07.00"
 converterGson = "2.9.0"
-coreKtxVersion = "1.13.1"
+coreKtxVersion = "1.16.0"
+extractor = "0.23.3"
+githubNewpipeextractor = "v0.27.0"
+githubNewpipeextractorVersion = "INSERT_VERSION_HERE"
 glide = "4.16.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.9.1"
+lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
-composeBom = "2024.09.00"
-lifecycleRuntimeKtxVersion = "2.8.3"
+composeBom = "2025.07.00"
+lifecycleRuntimeKtxVersion = "2.9.2"
 materialIconsExtended = "1.7.8"
 media = "1.7.0"
 media3Exoplayer = "1.7.1"
-media3ExoplayerVersion = "1.3.1"
+media3ExoplayerVersion = "1.7.1"
 media3Session = "1.7.1"
-media3SessionVersion = "1.3.1"
+media3SessionVersion = "1.7.1"
 media3Ui = "1.7.1"
-media3UiVersion = "1.3.1"
-navVersion = "2.7.7"
+media3UiVersion = "1.7.1"
+navVersion = "2.9.2"
+newpipeextractor = "v0.27.0"
+newpipeExtractorVersion = "0.4.0"
 retrofit = "2.9.0"
+schabiNewpipeextractor = "0.27.0"
 uiViewbinding = "1.8.3"
 
 [libraries]
+android-youtubeextractor = { module = "com.github.HaarigerHarald:android-youtubeExtractor", version.ref = "androidYoutubeextractor" }
 androidx-activity-compose-v190 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityComposeVersion" }
 androidx-compose-bom-v20240600 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
@@ -50,6 +58,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "uiViewbinding" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+extractor = { module = "org.schabi.newpipe:extractor", version.ref = "extractor" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -65,7 +74,12 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 material3 = { module = "androidx.compose.material3:material3" }
+newpipe-extractor = { module = "com.github.libre-tube:NewPipe-Extractor", version.ref = "newpipeExtractorVersion" }
+newpipeextractor = { module = "com.github.TeamNewPipe:NewPipeExtractor", version.ref = "newpipeextractor" }
+newpipeextractor-vv0270 = { module = "com.github.TeamNewPipe:NewPipeExtractor", version.ref = "githubNewpipeextractor" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+schabi-newpipeextractor = { module = "org.schabi.newpipe:NewPipeExtractor", version.ref = "schabiNewpipeextractor" }
+teamnewpipe-newpipeextractor = { module = "com.github.teamnewpipe:NewPipeExtractor", version.ref = "githubNewpipeextractorVersion" }
 ui = { module = "androidx.compose.ui:ui" }
 ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
