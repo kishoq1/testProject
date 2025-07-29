@@ -3,6 +3,7 @@ package com.example.testproject.ui.screen.players
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.SparseArray
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import at.huber.youtubeExtractor.VideoMeta
 import at.huber.youtubeExtractor.YouTubeExtractor
@@ -17,16 +18,21 @@ sealed class PlayerUiState {
 }
 
 @SuppressLint("StaticFieldLeak")
-class PlayerViewModel : ViewModel() {
+class PlayerViewModel(
+    private val savedStateHandle: SavedStateHandle // Inject SavedStateHandle để lấy arguments
+) : ViewModel() {
     private val _uiState = MutableStateFlow<PlayerUiState>(PlayerUiState.Loading)
     val uiState = _uiState.asStateFlow()
+
+    // Lấy videoId từ SavedStateHandle ngay khi ViewModel được tạo
+    private val videoId: String = checkNotNull(savedStateHandle.get<String>("videoId"))
 
     fun extractVideoUrl(context: Context, videoId: String) {
         _uiState.value = PlayerUiState.Loading
 
-        // === SỬA LỖI TẠI ĐÂY ===
+        // === ĐÂY LÀ CHỖ SỬA LỖI QUAN TRỌNG NHẤT ===
         // Xây dựng URL YouTube chính xác từ videoId được truyền vào
-        val youtubeLink = "http://youtube.com/watch?v=$videoId"
+        val youtubeLink = "https://www.youtube.com/watch?v=${this.videoId}"
 
         object : YouTubeExtractor(context) {
             override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, videoMeta: VideoMeta?) {
