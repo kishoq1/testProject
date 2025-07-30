@@ -80,7 +80,7 @@ dependencies {
     implementation(libs.androidx.media3.ui)
 
     // YouTube Extractor
-    implementation(libs.youtube.extractor)
+    implementation("com.github.TeamNewPipe:NewPipeExtractor:v0.24.6")
 
     // Testing
     testImplementation(libs.junit)

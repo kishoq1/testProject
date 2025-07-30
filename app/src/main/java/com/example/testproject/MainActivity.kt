@@ -2,6 +2,7 @@ package com.example.testproject
 
 import android.Manifest
 import android.app.NotificationChannel
+import com.example.testproject.NewPipeManager
 import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
+        NewPipeManager.init(applicationContext)
         askForNotificationPermission() // Bây giờ hàm này đã tồn tại
         setContent {
             // Theme được tạo tự động bởi Android Studio

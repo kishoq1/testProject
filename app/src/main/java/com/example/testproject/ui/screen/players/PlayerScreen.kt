@@ -36,7 +36,7 @@ fun YouTubePlayerScreen(
 
     // Lấy URL video một lần, truyền context vào
     LaunchedEffect(key1 = videoId) {
-        viewModel.extractVideoUrl(context, videoId)
+        viewModel.extractVideoUrl( videoId)
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

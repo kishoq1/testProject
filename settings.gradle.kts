@@ -10,7 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven (url  ="https://jitpack.io")
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -19,6 +19,3 @@ rootProject.name = "testProject"
 
 // 2. Khai báo tất cả các module con sau đó
 include(":app")
-include(":extractor")
-include(":shared")
-include(":timeago-parser")

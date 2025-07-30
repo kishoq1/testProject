@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.testproject.data.remote.dto.VideoItemDto
+import com.example.testproject.data.remote.dto.SearchItem
 import com.example.testproject.ui.screen.search.SearchUiState
 import com.example.testproject.ui.screen.search.SearchViewModel
 
@@ -101,7 +101,7 @@ fun SearchScreen(
  * Composable để hiển thị danh sách các video.
  */
 @Composable
-private fun VideoList(videos: List<VideoItemDto>, onVideoClicked: (String) -> Unit) {
+private fun VideoList(videos: List<SearchItem>, onVideoClicked: (String) -> Unit) {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(videos) { video ->
             VideoItemRow(video = video, onVideoClicked = onVideoClicked)
@@ -109,15 +109,13 @@ private fun VideoList(videos: List<VideoItemDto>, onVideoClicked: (String) -> Un
     }
 }
 
-/**
- * Composable cho một hàng (item) trong danh sách video.
- */
+// Sửa lại Composable VideoItemRow
 @Composable
-private fun VideoItemRow(video: VideoItemDto, onVideoClicked: (String) -> Unit) {
+private fun VideoItemRow(video: SearchItem, onVideoClicked: (String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onVideoClicked(video.id.videoId) }, // <-- Đây là nơi sự kiện click được kích hoạt
+            .clickable { onVideoClicked(video.videoId) }, // video.videoId đã đúng
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -125,14 +123,14 @@ private fun VideoItemRow(video: VideoItemDto, onVideoClicked: (String) -> Unit) 
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = video.snippet.thumbnails.mediumQuality.url,
+                model = video.thumbnailUrl, // Dùng thumbnailUrl từ SearchItem
                 contentDescription = "Video thumbnail",
                 modifier = Modifier.size(120.dp, 90.dp),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = video.snippet.title,
+                text = video.title, // Dùng title từ SearchItem
                 style = MaterialTheme.typography.bodyLarge,
                 maxLines = 3
             )
